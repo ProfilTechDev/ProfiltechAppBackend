@@ -31,17 +31,18 @@ DB_HOST=127.0.0.1
 DB_PORT=3306
 DB_DATABASE=ProfiltechApp
 DB_USERNAME=dbuser
-DB_PASSWORD=
+DB_PASSWORD=dbpass
 ```
 
 > **Bemærk:** root ikke kan blive brugt som DB_USERNAME. Dette vil resultere i genstart loop af mysql serveren
+
 Gem filen, når du er færdig.
 
 ### 4. Start Docker-containeren
 Start projektets Docker-container ved at køre følgende kommando:
 
 ```bash
-docker compose up
+ docker compose up -d
 ```
 
 > **Bemærk:** Første gang du kører denne kommando, vil det tage lidt tid, da alle dependencies installeres. Efterfølgende starter containeren hurtigere.
@@ -78,6 +79,37 @@ php artisan migrate
 Efter ovenstående trin er din applikation klar til brug på den konfigurerede URL.
 
 ---
+
+### Debugging med XDEBUG
+XDEBUG er konfigureret på dette projekt og kan derfor blive anvendt til step debugging. Installer XDEBUG VsCode extension og lad den autogenere en en launch.json fil.
+Tilføj følgende:
+
+```json
+"pathMappings": {
+    "/var/www/html": "${workspaceFolder}"
+}
+```
+
+Sådan hele filen ser sådan her ud:
+
+```json
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Listen for Xdebug",
+            "type": "php",
+            "request": "launch",
+            "port": 9003,
+            "pathMappings": {
+                "/var/www/html": "${workspaceFolder}"
+            }
+        }
+    ]
+}
+```           
+
+Nu burde du fra VSCode extensionen kunne starte din XDEBUG sætte et breakpoint og step debugge
 
 ## Yderligere Ressourcer
 
