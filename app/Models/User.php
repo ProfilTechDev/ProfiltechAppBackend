@@ -45,4 +45,40 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+    protected $appends = ['first_name', 'last_name'];
+
+    public function getFirstNameAttribute(): string
+    {
+        return explode(' ', $this->name)[0];
+    }
+
+    public function getLastNameAttribute(): string
+    {
+        $exploded = explode(' ', $this->name);
+        return array_pop($exploded);
+    }
+
+    public function emailNotificationSettings()
+    {
+        return $this->hasMany(EmailNotificationSettings::class);
+    }
+
+    public function wantsNotification($type)
+    {
+        $setting = $this->emailNotificationSettings()
+            ->where('type', $type)
+            ->first();
+
+        if ($setting) {
+            return $setting->value;
+        }
+
+        // Hvis der ikke er nogen indstilling, antag at brugeren ønsker notifikationen
+        return true;
+    }
+
+    public function company()
+    {
+        return $this->belongsTo(Company::class);
+    }
 }
