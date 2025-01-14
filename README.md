@@ -57,3 +57,19 @@ Det er vigitgt at denne port bruges og du skal derfor være sikker på der ikke 
 ```bash
 php artisan serve
 ```
+
+### Opret en bruger til at logge ind i appen med
+For at kunne logge ind i appen skal du oprette en bruger. 
+Den letteste måde er at anvend Tinker laravel pakken.
+
+kør:
+```bash
+php artisan tinker
+```
+
+Nu burde du være inde i tinker og kan køre funktioner herfra. Kør følgende for at oprette en bruger. Du kan ændre navn, email og password til hvad du har lyst til. 
+Hvis du skal teste reset af password vil det give mening at bruge en eksisterende email.
+
+```php
+User::create(['name' => 'John Doe', 'email' => 'example@example.com', 'password' => bcrypt('password')])
+```
