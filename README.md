@@ -21,100 +21,31 @@ cd ProfiltechAppBackend
 ```
 
 ### 3. Opret en .env-fil
-Kopier indholdet fra `.env.example`, og opret en ny fil ved navn `.env`. Derefter skal du udfylde de nødvendige variabler:
+Kopier indholdet fra `.env.example`, og opret en ny fil ved navn `.env`. 
 
-```env
-APP_URL=http://localhost
-APP_PORT=[Ønsket udviklingsport]:80
-DB_CONNECTION=mysql
-DB_HOST=127.0.0.1
-DB_PORT=3306
-DB_DATABASE=ProfiltechApp
-DB_USERNAME=dbuser
-DB_PASSWORD=dbpass
-```
 
-> **Bemærk:** root ikke kan blive brugt som DB_USERNAME. Dette vil resultere i genstart loop af mysql serveren
 
-Gem filen, når du er færdig.
+### 4. Migrer database
+Først skal du være sikker på at mysql er installeret på din pc.
 
-### 4. Start Docker-containeren
-Start projektets Docker-container ved at køre følgende kommando:
+> **Bemærk:** Hvis du er på windows skal du være sikker på at mysql og php er tilgængelig der hvor din projekt ligger. Bruger du xampp, skal den ligge i den rigtige mappe. Bruger du WSL skal du installere mysql og PHP på din WSL maskine.
+
+Tjek om mysql er installeret:
 
 ```bash
- docker compose up -d
+mysql -v
 ```
 
-> **Bemærk:** Første gang du kører denne kommando, vil det tage lidt tid, da alle dependencies installeres. Efterfølgende starter containeren hurtigere.
-
-### 5. Gå ind i app-containeren
-Når containeren kører, skal du tilgå app-containeren med denne kommando:
-
-```bash
-docker compose exec app bash
-```
-
-### 6. Installer PHP-dependencies
-Kør følgende kommando i containeren for at installere projektets dependencies:
-
-```bash
-composer install
-```
-
-### 7. Lav en app key
-Generer nødvendig app key
-
-```bash
-php artisan key:generate
-```
-
-### 8. Migrer databasen
-Udfør database-migreringer for at opsætte de nødvendige tabeller:
+Kør nu denne kommando til at migrere database tabellerne
 
 ```bash
 php artisan migrate
 ```
 
-### 9. Projektet er nu klar
-Efter ovenstående trin er din applikation klar til brug på den konfigurerede URL.
+### 5. Start laravel Api
+Kør artisan kommando for at starte applikationen på localhost port 8000. 
+Det er vigitgt at denne port bruges og du skal derfor være sikker på der ikke er andet der kører.
 
----
-
-### Debugging med XDEBUG
-XDEBUG er konfigureret på dette projekt og kan derfor blive anvendt til step debugging. Installer XDEBUG VsCode extension og lad den autogenere en en launch.json fil.
-Tilføj følgende:
-
-```json
-"pathMappings": {
-    "/var/www/html": "${workspaceFolder}"
-}
+```bash
+php artisan serve
 ```
-
-Sådan hele filen ser sådan her ud:
-
-```json
-{
-    "version": "0.2.0",
-    "configurations": [
-        {
-            "name": "Listen for Xdebug",
-            "type": "php",
-            "request": "launch",
-            "port": 9003,
-            "pathMappings": {
-                "/var/www/html": "${workspaceFolder}"
-            }
-        }
-    ]
-}
-```           
-
-Nu burde du fra VSCode extensionen kunne starte din XDEBUG sætte et breakpoint og step debugge
-
-## Yderligere Ressourcer
-
-- [Laravel Dokumentation](https://laravel.com/docs)
-- [Docker Dokumentation](https://docs.docker.com)
-- [Nginx Dokumentation](https://nginx.org/en/docs/)
-
-Hvis du støder på problemer, er du velkommen til at oprette en issue i projektets repository.
