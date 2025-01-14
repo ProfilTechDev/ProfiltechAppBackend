@@ -24,8 +24,16 @@ cd ProfiltechAppBackend
 Kopier indholdet fra `.env.example`, og opret en ny fil ved navn `.env`. 
 
 
+### 4. Composer install
+Vær sikker på composer er installeret på din pc og tilgængelig.
+Herefter skal du kører composer install og hvis der skal bruges en token. Klik på linket som står i teksten og giv adgang til alt
 
-### 4. Migrer database
+```bash
+composer install
+```
+
+
+### 5. Migrer database
 Først skal du være sikker på at mysql er installeret på din pc.
 
 > **Bemærk:** Hvis du er på windows skal du være sikker på at mysql og php er tilgængelig der hvor din projekt ligger. Bruger du xampp, skal den ligge i den rigtige mappe. Bruger du WSL skal du installere mysql og PHP på din WSL maskine.
@@ -42,7 +50,7 @@ Kør nu denne kommando til at migrere database tabellerne
 php artisan migrate
 ```
 
-### 5. Start laravel Api
+### 6. Start laravel Api
 Kør artisan kommando for at starte applikationen på localhost port 8000. 
 Det er vigitgt at denne port bruges og du skal derfor være sikker på der ikke er andet der kører.
 
