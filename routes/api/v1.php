@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\V1\TestDataController;
-use App\Http\Controllers\CompanyController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\UserController;
 use App\Models\TestData;
 use Illuminate\Http\Request;
@@ -27,13 +27,8 @@ Route::controller(UserController::class)
     Route::put('/app-notification-settings', 'updateAppNotificationSettings');
 });
 
-Route::controller(CompanyController::class)
-->prefix('/company')
+Route::controller(OrderController::class)
+->prefix('/orders')
 ->group(function () {
-    Route::get('/', 'getCompany');
-    Route::put('/', 'update');
-    Route::get('/email-notification-settings', 'getEmailNotificationSettings');
-    Route::get('/app-notification-settings', 'getAppNotificationSettings');
-    Route::put('/email-notification-settings', 'updateEmailNotificationSettings');
-    Route::put('/app-notification-settings', 'updateAppNotificationSettings');
+    Route::get('/', 'orders');
 });

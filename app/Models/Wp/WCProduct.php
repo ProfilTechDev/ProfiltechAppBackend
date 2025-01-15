@@ -11,8 +11,9 @@ class WCProduct extends Model
 
     protected $connection = 'wp';
     protected $table = 'posts';
+    protected $primaryKey = 'ID';
 
-        /**
+    /**
      * The "booted" method of the model.
      *
      * @return void
@@ -23,4 +24,42 @@ class WCProduct extends Model
             $builder->where('post_type', 'product');
         });
     }
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | Relationships
+    |--------------------------------------------------------------------------
+    */
+    
+    public function termTaxonomies(){
+        return $this->hasManyThrough(
+            TermTaxonomy::class,
+            TermRelations::class,
+            'object_id',
+            'term_taxonomy_id',
+            'ID',
+            'term_taxonomy_id'
+        );
+    }
+
+    public function shippingClasses(){
+        return $this->termTaxonomies()->where('taxonomy', 'product_shipping_class')->with('term');
+    }
+
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | Accessors
+    |--------------------------------------------------------------------------
+    */
+
+    public function getShippingClassAttribute()
+    {
+        // Returnér den første shipping class, hvis den findes
+        return $this->shippingClasses->first();
+    }
+
+
 }

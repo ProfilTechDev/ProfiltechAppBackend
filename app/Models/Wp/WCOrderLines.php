@@ -11,6 +11,7 @@ class WCOrderLines extends Model
 
     protected $connection = 'wp';
     protected $table = 'woocommerce_order_items';
+    protected $primaryKey = 'order_item_id';
 
     public function order(){
         return $this->belongsTo(WCOrder::class, 'order_id', 'id');
@@ -21,6 +22,6 @@ class WCOrderLines extends Model
     }
 
     public function product(){
-        return $this->hasOne(WCOrderLineMeta::class, 'order_item_id', 'order_item_id')->where('meta_key', '_product_id')->with('product');
+        return $this->hasOne(WCProduct::class, 'ID', 'order_item_id');
     }
 }
